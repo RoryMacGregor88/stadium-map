@@ -58,6 +58,7 @@ toggleStadiums() {
  
         return (
             <div>
+                {/* I only made the toggle button into a component to see if it was possble. */}
                 <Toggle 
                     toggle={this.toggleStadiums}
                 />
