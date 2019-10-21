@@ -1,10 +1,15 @@
 import React from 'react'
+import './toggle.css';
 
 export default function Toggle({toggle}) {
     const handleClick = () => {
         toggle();
     }
     return (
-        <button onClick={handleClick}>Toggle Stadiums</button>
+        <button
+            className='button' 
+            onClick={handleClick}
+            >Toggle Stadiums
+        </button>
     )
 } 

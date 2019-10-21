@@ -1,7 +1,7 @@
 import React from 'react';
 import './map.css';
 import mapboxgl from 'mapbox-gl';
-import Toggle from '../toggle/Toggle'
+import SideBar from '../sideBar/SideBar';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9yeW1hY2dyZWdvcjg4IiwiYSI6ImNrMWozNndycDA3NTMzaXA3bDBvbHY0dXUifQ.FVuzhYeFcbrlDJTnAUXM3Q';
 
@@ -11,14 +11,17 @@ export default class Map extends React.Component {
         super(props);
         this.state = {
             map: null,
-            showStadiums: true
+            showStadiums: true,
+            data: null
         }
         this.mapInit = this.mapInit.bind(this);
+        this.getData = this.getData.bind(this);
         this.switchThemes = this.switchThemes.bind(this);
         this.toggleStadiums = this.toggleStadiums.bind(this);
     }
 
     componentDidMount() {
+        this.getData();
         this.mapInit();
     }
 
@@ -35,7 +38,6 @@ export default class Map extends React.Component {
 
             map.on('click', 'stadiums',  (evt) => {
                 const features = map.queryRenderedFeatures(evt.point);
-                console.log(features)
 
                 new mapboxgl.Popup({offset: 25})
                     .setLngLat(evt.lngLat)
@@ -58,7 +60,7 @@ export default class Map extends React.Component {
     switchThemes(evt) {
         const map = this.state.map;
 
-        if (evt.target.name === 'dark') {
+        if (evt.target.name === 'Dark') {
             map.setStyle('mapbox://styles/rorymacgregor88/ck1w2muag09d11cs2dbosj01f');
             map.on('load', () => {
                 map.addLayer({
@@ -74,31 +76,29 @@ export default class Map extends React.Component {
         }
     }
 
+    async getData() {
+        const data = 'https://api.mapbox.com/datasets/v1/rorymacgregor88/ck1uq4pa806kt2os8ygktg2ar/features?limit=50&access_token=pk.eyJ1Ijoicm9yeW1hY2dyZWdvcjg4IiwiYSI6ImNrMWozNndycDA3NTMzaXA3bDBvbHY0dXUifQ.FVuzhYeFcbrlDJTnAUXM3Q';
+         
+        const response = await fetch(data);
+        const json = await response.json();
+
+        this.setState({data: json})
+    }
+
     render() {
  
         return (
             <div>
-                <Toggle 
-                    toggle={this.toggleStadiums}
-                />
-                <div className='menu'>
-                    <button
-                        name='light' 
-                        type='radio'
-                        onClick={this.switchThemes}
-                        >Light Mode
-                    </button>
-                    <button 
-                        name='dark'
-                        type='radio'
-                        onClick={this.switchThemes}
-                        >Dark Mode
-                    </button>
-                </div>
-                <div 
-                    ref={div => this.mapContainer = div}
-                    className='map-container'
-                >
+                <div className='content-container'>
+                    <SideBar
+                        switchThemes={this.switchThemes}
+                        toggle={this.toggleStadiums}
+                        data={this.state.data}
+                        map={this.state.map}
+                    />
+
+                    {/* Entire map goes in this div */}
+                    <div className='map-container' ref={div => this.mapContainer = div} />
                 </div>
             </div>
         )
