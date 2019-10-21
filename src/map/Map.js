@@ -104,6 +104,10 @@ export default class Map extends React.Component {
                     zoom: 6.25
                 });
             })
+        map.setLayoutProperty('stadiums', 'icon-color', '#FFFFFF')
+        console.log(
+            map.getLayer('stadiums')
+        );         
     }
 
     render() {
