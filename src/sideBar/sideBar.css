@@ -13,5 +13,33 @@
 }
 
 .button {
-    margin: 0 0.5rem 0 0.5rem;
+    margin: 1rem 0.5rem 0 0.5rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.25rem;
+    background-color: white;
+}
+
+.button:hover {
+    background-color: #DDD;
+}
+
+.sidebar-div {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 2.5px solid black;
+}
+
+.sidebar-div:hover {
+    background-color: #DDD
+}
+
+.sidebar-h3 {
+    font-size: 2rem;
+}
+
+.sidebar-h1 {
+    margin: 0 0 0 0.5rem;
 }

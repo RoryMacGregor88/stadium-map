@@ -2,4 +2,7 @@ html,
 body {
     margin: 0;
     Padding: 0;
+    font-family: 'Be Vietnam', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
 }

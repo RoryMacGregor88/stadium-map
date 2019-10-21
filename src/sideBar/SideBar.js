@@ -1,36 +1,31 @@
 import React from 'react';
-import mapboxgl from 'mapbox-gl';
 import ControlContainer from '../controlContainer/ControlContainer';
 import './sideBar.css';
 
-export default function Sidebar({switchThemes, toggle, data, map}) {
+export default function Sidebar({switchThemes, toggle, data, handleSideBarClick}) {
 
-    const handleClick = (coords, team) => {
-        map.flyTo({
-            center: coords,
-            zoom: 8
-        });
-        new mapboxgl.Popup({offset: 25})
-            .setLngLat(coords)
-            .setHTML('<h1>' + team + '</h1>')
-            .addTo(map);
-    }
-
+    let stadiums;
     if(data) {
-        var stadiums = data.features.map((stadium) => {
-            const team = stadium.properties.team;
+        stadiums = data.features.map((stadium) => {
+            const teamName = stadium.properties.team;
             const coords = stadium.geometry.coordinates;
             return (
                 <div 
                     key={stadium.id}
-                    onClick={() => handleClick(coords, team)}
+                    className='sidebar-div'
+                    onClick={() => handleSideBarClick(coords, teamName)}
                 >
-                    <h3 value={team}>{team}</h3>
+                    <h3 
+                        className='sidebar-h3'
+                        value={teamName}
+                    >
+                        {teamName}
+                    </h3>
                 </div>
             )
         })
     } else {
-        return<p>Loading Data...</p>
+        stadiums =<p>Loading Data...</p>
     }
 
     return (
@@ -39,7 +34,7 @@ export default function Sidebar({switchThemes, toggle, data, map}) {
                 switchThemes={switchThemes}
                 toggle={toggle}    
             />
-            <h1>UK Football Stadiums: </h1>
+            <h1 className='sidebar-h1'>UK Football Stadiums: </h1>
             {stadiums}
         </div>
     )

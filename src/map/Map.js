@@ -18,6 +18,7 @@ export default class Map extends React.Component {
         this.getData = this.getData.bind(this);
         this.switchThemes = this.switchThemes.bind(this);
         this.toggleStadiums = this.toggleStadiums.bind(this);
+        this.flyToSideBarCoords = this.flyToSideBarCoords.bind(this);
     }
 
     componentDidMount() {
@@ -85,16 +86,35 @@ export default class Map extends React.Component {
         this.setState({data: json})
     }
 
+    flyToSideBarCoords(coords, teamName) {
+        const map = this.state.map;
+
+        map.flyTo({
+            center: coords,
+            zoom: 8.25
+        });
+
+        new mapboxgl.Popup({offset: 25})
+            .setLngLat(coords)
+            .setHTML('<h1>' + teamName + '</h1>')
+            .addTo(map)
+            .on('close', () => {
+                map.flyTo({
+                    center: [-1.6394956355722456, 53.29760006104155],
+                    zoom: 6.25
+                });
+            })
+    }
+
     render() {
- 
         return (
             <div>
                 <div className='content-container'>
                     <SideBar
                         switchThemes={this.switchThemes}
                         toggle={this.toggleStadiums}
+                        handleSideBarClick={this.flyToSideBarCoords}
                         data={this.state.data}
-                        map={this.state.map}
                     />
 
                     {/* Entire map goes in this div */}
