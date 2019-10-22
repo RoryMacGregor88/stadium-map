@@ -30,7 +30,7 @@ export default class Map extends React.Component {
     mapInit() {
         const map = new mapboxgl.Map({
             container: this.mapContainer,
-            style: 'mapbox://styles/rorymacgregor88/ck1uqgvah0afo1clni9co56yd',
+            style: 'mapbox://styles/rorymacgregor88/ck22020az0vx51cms63r4589q',
             center: [-1.6394956355722456, 53.29760006104155],
             zoom: 6.25
         })
@@ -89,7 +89,7 @@ export default class Map extends React.Component {
                 })
             })
         } else {
-            map.setStyle('mapbox://styles/rorymacgregor88/ck1uqgvah0afo1clni9co56yd')
+            map.setStyle('mapbox://styles/rorymacgregor88/ck22020az0vx51cms63r4589q')
         }
     }
 
