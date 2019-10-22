@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './map.module.css';
 import mapboxgl from 'mapbox-gl';
 import SideBar from '../sideBar/sideBar.component';
-// import Popup from '../popup/popup.compopnent';
+import Popup from '../popup/popup.compopnent';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9yeW1hY2dyZWdvcjg4IiwiYSI6ImNrMWozNndycDA3NTMzaXA3bDBvbHY0dXUifQ.FVuzhYeFcbrlDJTnAUXM3Q';
 
@@ -37,6 +37,16 @@ export default class Map extends React.Component {
 
         map.on('load', () => {
             this.setState({map})
+
+            // Not showing?
+            map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            }));
+
+            map.addControl(new mapboxgl.FullscreenControl({container: this.mapContainer}));
 
             map.on('click', 'stadiums',  (evt) => {
                 const features = map.queryRenderedFeatures(evt.point);
@@ -93,9 +103,11 @@ export default class Map extends React.Component {
     flyToSideBarCoords(coords, teamName) {
         const map = this.state.map;
 
-        map.flyTo({
+        map.easeTo({
             center: coords,
-            zoom: 8.25
+            zoom: 9.25,
+            pitch: 75,
+            rotation: 20
         });
 
         new mapboxgl.Popup({
@@ -103,12 +115,14 @@ export default class Map extends React.Component {
             // className: 'popup'
         })
         .setLngLat(coords)
-        .setHTML('<h1>' + teamName + '</h1>')
+        .setHTML('<h1>' + teamName + '<h1/>')
         .addTo(map)
         .on('close', () => {
-            map.flyTo({
+            map.easeTo({
                 center: [-1.6394956355722456, 53.29760006104155],
-                zoom: 6.25
+                zoom: 6.25,
+                pitch: 0,
+                rotation: 0
             });
         })     
     }
