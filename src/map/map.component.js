@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './map.module.css';
 import mapboxgl from 'mapbox-gl';
 import SideBar from '../sideBar/sideBar.component';
-import Popup from '../popup/popup.compopnent';
+// import Popup from '../popup/popup.compopnent';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9yeW1hY2dyZWdvcjg4IiwiYSI6ImNrMWozNndycDA3NTMzaXA3bDBvbHY0dXUifQ.FVuzhYeFcbrlDJTnAUXM3Q';
 
@@ -38,16 +38,6 @@ export default class Map extends React.Component {
         map.on('load', () => {
             this.setState({map})
 
-            // Not showing?
-            map.addControl(new mapboxgl.GeolocateControl({
-                positionOptions: {
-                    enableHighAccuracy: true
-                },
-                trackUserLocation: true
-            }));
-
-            map.addControl(new mapboxgl.FullscreenControl({container: this.mapContainer}));
-
             map.on('click', 'stadiums',  (evt) => {
                 const features = map.queryRenderedFeatures(evt.point);
 
@@ -59,6 +49,18 @@ export default class Map extends React.Component {
                 .setHTML('<h3>' + features[0].properties.team + '</h3>')
                 .addTo(map);
             })
+
+              // Not showing?
+              map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            }));
+
+            map.addControl(new mapboxgl.FullscreenControl({
+                container: this.mapContainer
+            }));
         })
     }
 
