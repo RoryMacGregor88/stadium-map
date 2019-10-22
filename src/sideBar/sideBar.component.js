@@ -1,8 +1,8 @@
 import React from 'react';
-import ControlContainer from '../controlContainer/ControlContainer';
-import './sideBar.css';
+import ControlContainer from '../controlContainer/controlContainer.component';
+import styles from './sideBar.module.css';
 
-export default function Sidebar({switchThemes, toggle, data, handleSideBarClick}) {
+export default function SideBar({switchThemes, toggle, data, handleSideBarClick}) {
 
     let stadiums;
     if(data) {
@@ -12,11 +12,11 @@ export default function Sidebar({switchThemes, toggle, data, handleSideBarClick}
             return (
                 <div 
                     key={stadium.id}
-                    className='sidebar-div'
+                    className={styles.sidebarDiv}
                     onClick={() => handleSideBarClick(coords, teamName)}
                 >
                     <h3 
-                        className='sidebar-h3'
+                        className={styles.sidebarH3}
                         value={teamName}
                     >
                         {teamName}
@@ -25,16 +25,16 @@ export default function Sidebar({switchThemes, toggle, data, handleSideBarClick}
             )
         })
     } else {
-        stadiums =<p>Loading Data...</p>
+        stadiums = <p>Loading Data...</p>
     }
 
     return (
-        <div className='sidebar'>
+        <div className={styles.sidebar}>
             <ControlContainer 
                 switchThemes={switchThemes}
                 toggle={toggle}    
             />
-            <h1 className='sidebar-h1'>UK Football Stadiums: </h1>
+            <h1 className={styles.sidebarH1}>UK Football Stadiums: </h1>
             {stadiums}
         </div>
     )
